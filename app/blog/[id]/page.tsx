@@ -13,14 +13,14 @@ export const dynamic = "force-dynamic"
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://classflow.monstercoop.co.kr"
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
-  const paramsObj = await params
-  const { data: blog, error } = await getBlogById(paramsObj.id)
+export async function generateMetadata(props: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await props.params
+  const { data: blog, error } = await getBlogById(id)
 
   if (error || !blog) {
     return {
       title: "블로그 포스트를 찾을 수 없습니다 | ClassFlow",
-      description: "The requested blog post could not be found.",
+      description: "요청한 블로그 포스트를 찾을 수 없습니다.",
     }
   }
 
@@ -51,15 +51,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   }
 }
 
-export default async function BlogDetailPage({ params }: { params: { id: string } }) {
-  const paramsObj = await params
-  const { data: blog, error } = await getBlogById(paramsObj.id)
+export default async function BlogDetailPage(props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+  const { data: blog, error } = await getBlogById(id)
 
   if (error || !blog) {
     notFound()
   }
 
-  const { data: relatedBlogs } = await getRelatedBlogs(paramsObj.id)
+  const { data: relatedBlogs } = await getRelatedBlogs(id)
 
   // Format the date
   const formattedDate = format(new Date(blog.created_at), "yyyy년 MM월 dd일", { locale: ko })

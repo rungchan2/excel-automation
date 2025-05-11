@@ -4,7 +4,7 @@ import type { Blog, BlogListItem } from "@/types/blog"
 export async function getAllBlogs(
   page = 1,
   pageSize = 9,
-): Promise<{ data: BlogListItem[] | null; error: any; count: number }> {
+): Promise<{ data: BlogListItem[] | null; error: Error | null; count: number }> {
   // Calculate the range for pagination
   const start = (page - 1) * pageSize
   const end = start + pageSize - 1
@@ -27,7 +27,7 @@ export async function getAllBlogs(
   return { data, error, count: count || 0 }
 }
 
-export async function getBlogById(id: string): Promise<{ data: Blog | null; error: any }> {
+export async function getBlogById(id: string): Promise<{ data: Blog | null; error: Error | null }> {
   const { data, error } = await supabase.from("blog").select("*").eq("id", id).single()
 
   return { data, error }
@@ -36,7 +36,7 @@ export async function getBlogById(id: string): Promise<{ data: Blog | null; erro
 export async function getRelatedBlogs(
   currentId: string,
   limit = 3,
-): Promise<{ data: BlogListItem[] | null; error: any }> {
+): Promise<{ data: BlogListItem[] | null; error: Error | null }> {
   const { data, error } = await supabase
     .from("blog")
     .select("id, title, subtitle, created_at, image_url")
