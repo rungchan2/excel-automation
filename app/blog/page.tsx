@@ -99,9 +99,10 @@ async function BlogList({ page = 1 }: { page?: number }) {
 export default async function BlogPage({
   searchParams,
 }: {
-  searchParams: { page?: string }
+  searchParams: Promise<{ page?: string }>
 }) {
-  const page = searchParams.page ? Number.parseInt(searchParams.page) : 1
+  const searchParamsObj = await searchParams
+  const page = searchParamsObj.page ? Number.parseInt(searchParamsObj.page) : 1
 
   return (
     <div className="py-12 md:py-20">
@@ -116,11 +117,11 @@ export default async function BlogPage({
           </div>
 
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">
-            <span className="text-[#217346]">StudyFlow</span> 활용 사례
+            <span className="text-[#217346]">ClassFlow와</span> 활용 사례
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl">
-            다양한 학원들이 StudyFlow와 함께 업무 효율을 높이고 시간을 절약한 사례를 확인하세요. 실제 사용자들의 경험과
-            성공 스토리를 통해 StudyFlow가 어떻게 학원 운영을 개선하는지 알아보세요.
+            다양한 학원들이 ClassFlow와 함께 업무 효율을 높이고 시간을 절약한 사례를 확인하세요. 실제 사용자들의 경험과
+            성공 스토리를 통해 ClassFlow와가 어떻게 학원 운영을 개선하는지 알아보세요.
           </p>
         </div>
 

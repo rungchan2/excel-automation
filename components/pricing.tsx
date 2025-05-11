@@ -1,9 +1,14 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Check, X } from "lucide-react"
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Check, X } from "lucide-react";
 
 export default function Pricing() {
   return (
@@ -13,7 +18,9 @@ export default function Pricing() {
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             합리적인 <span className="text-[#217346]">요금제</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">학원 규모와 필요에 맞는 요금제를 선택하세요.</p>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            학원 규모와 필요에 맞는 요금제를 선택하세요.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -31,7 +38,7 @@ export default function Pricing() {
               { name: "고급 통계 분석", included: false },
               { name: "무제한 문자 발송", included: false },
             ]}
-            buttonText="2주 무료 체험"
+            buttonText="견적서 받아보기"
             popular={false}
           />
 
@@ -49,21 +56,39 @@ export default function Pricing() {
               { name: "고급 통계 분석", included: true },
               { name: "API 연동", included: true },
             ]}
-            buttonText="2주 무료 체험"
+            buttonText="견적서 받아보기"
             popular={true}
           />
         </div>
 
-        <div className="mt-12 text-center">
-          <p className="text-sm text-gray-500 mb-2">모든 요금제는 월간 구독 기준이며, 연간 결제 시 20% 할인됩니다.</p>
-          <p className="text-sm font-medium text-[#217346]">지금 가입하시면 얼리버드 30% 할인!</p>
-        </div>
+        {/* <div className="mt-12 text-center">
+          <p className="text-sm text-gray-500 mb-2">
+            모든 요금제는 월간 구독 기준이며, 연간 결제 시 20% 할인됩니다.
+          </p>
+          <p className="text-sm font-medium text-[#217346]">
+            지금 가입하시면 얼리버드 30% 할인!
+          </p>
+        </div> */}
       </div>
     </section>
-  )
+  );
 }
 
-function PricingCard({ title, price, description, features, buttonText, popular }) {
+function PricingCard({
+  title,
+  price,
+  description,
+  features,
+  buttonText,
+  popular,
+}: {
+  title: string;
+  price: string;
+  description: string;
+  features: { name: string; included: boolean }[];
+  buttonText: string;
+  popular: boolean;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -71,9 +96,15 @@ function PricingCard({ title, price, description, features, buttonText, popular 
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
     >
-      <Card className={`overflow-hidden ${popular ? "border-[#217346] shadow-lg" : ""}`}>
+      <Card
+        className={`overflow-hidden ${
+          popular ? "border-[#217346] shadow-lg" : ""
+        }`}
+      >
         {popular && (
-          <div className="bg-[#217346] text-white text-center py-1 text-sm font-medium">가장 인기 있는 선택</div>
+          <div className="bg-[#217346] text-white text-center py-1 text-sm font-medium">
+            가장 인기 있는 선택
+          </div>
         )}
 
         <CardHeader className="pb-0">
@@ -96,18 +127,26 @@ function PricingCard({ title, price, description, features, buttonText, popular 
                 ) : (
                   <X className="h-5 w-5 text-gray-300 mr-2 flex-shrink-0" />
                 )}
-                <span className={feature.included ? "" : "text-gray-400"}>{feature.name}</span>
+                <span className={feature.included ? "" : "text-gray-400"}>
+                  {feature.name}
+                </span>
               </li>
             ))}
           </ul>
         </CardContent>
 
         <CardFooter>
-          <Button className={`w-full ${popular ? "bg-[#217346] hover:bg-[#185C37]" : "bg-gray-800 hover:bg-gray-700"}`}>
+          <Button
+            className={`w-full ${
+              popular
+                ? "bg-[#217346] hover:bg-[#185C37]"
+                : "bg-gray-800 hover:bg-gray-700"
+            }`}
+          >
             {buttonText}
           </Button>
         </CardFooter>
       </Card>
     </motion.div>
-  )
+  );
 }

@@ -3,7 +3,7 @@ description:
 globs: 
 alwaysApply: true
 ---
-# StudyFlow .cursorrules
+# ClassFlow .cursorrules
 
 ## 프로젝트 개요
 - 엑셀 기반 학원 자동화 서비스

@@ -1,10 +1,31 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Card } from "@/components/ui/card"
-import { UserCheck, MessageSquare, CreditCard } from "lucide-react"
-import Image from "next/image"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Card } from "@/components/ui/card";
+import { UserCheck, MessageSquare, CreditCard } from "lucide-react";
+import Image from "next/image";
+
+const features = [
+  [
+    "• QR코드 기반 출석 체크",
+    "• 엑셀 시트 자동 업데이트",
+    "• 결석/지각 자동 집계",
+    "• 출결 통계 자동 생성",
+  ],
+  [
+    "• 결석/지각 시 자동 문자 발송",
+    "• 수업 알림 자동 발송",
+    "• 맞춤형 메시지 템플릿",
+    "• 발송 이력 자동 기록",
+  ],
+  [
+    "• 입금 내역 자동 확인",
+    "• 미납자 자동 식별",
+    "• 납부 알림 자동 발송",
+    "• 월별 수납 통계 자동 생성",
+  ],
+];
 
 export default function Features() {
   return (
@@ -15,7 +36,8 @@ export default function Features() {
             주요 <span className="text-[#217346]">자동화 기능</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            StudyFlow의 주요 기능으로 학원 관리의 효율성을 높이고 시간을 절약하세요.
+            ClassFlow의 주요 기능으로 학원 관리의 효율성을 높이고 시간을
+            절약하세요.
           </p>
         </div>
 
@@ -28,18 +50,17 @@ export default function Features() {
             backContent={
               <>
                 <h4 className="font-bold mb-2">주요 기능</h4>
-                <ul className="text-sm space-y-1 text-left">
-                  <li>• QR코드 기반 출석 체크</li>
-                  <li>• 엑셀 시트 자동 업데이트</li>
-                  <li>• 결석/지각 자동 집계</li>
-                  <li>• 출결 통계 자동 생성</li>
+                <ul className="space-y-1 text-left text-lg ">
+                  {features[0].map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
                 </ul>
                 <div className="mt-4">
                   <Image
-                    src="/placeholder.svg?height=100&width=200"
+                    src="/checkin.png"
                     alt="출결관리 스크린샷"
-                    width={200}
-                    height={100}
+                    width={500}
+                    height={300}
                     className="rounded-md mx-auto"
                   />
                 </div>
@@ -54,19 +75,18 @@ export default function Features() {
             percentage={90}
             backContent={
               <>
-                <h4 className="font-bold mb-2">주요 기능</h4>
+                <h3 className="font-bold mb-2">주요 기능</h3>
                 <ul className="text-sm space-y-1 text-left">
-                  <li>• 결석/지각 시 자동 문자 발송</li>
-                  <li>• 수업 알림 자동 발송</li>
-                  <li>• 맞춤형 메시지 템플릿</li>
-                  <li>• 발송 이력 자동 기록</li>
+                  {features[1].map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
                 </ul>
                 <div className="mt-4">
                   <Image
-                    src="/placeholder.svg?height=100&width=200"
-                    alt="문자 자동발송 스크린샷"
-                    width={200}
-                    height={100}
+                    src="/checkin.png"
+                    alt="출결관리 스크린샷"
+                    width={500}
+                    height={300}
                     className="rounded-md mx-auto"
                   />
                 </div>
@@ -83,17 +103,16 @@ export default function Features() {
               <>
                 <h4 className="font-bold mb-2">주요 기능</h4>
                 <ul className="text-sm space-y-1 text-left">
-                  <li>• 입금 내역 자동 확인</li>
-                  <li>• 미납자 자동 식별</li>
-                  <li>• 납부 알림 자동 발송</li>
-                  <li>• 월별 수납 통계 자동 생성</li>
+                  {features[2].map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
                 </ul>
                 <div className="mt-4">
                   <Image
-                    src="/placeholder.svg?height=100&width=200"
-                    alt="수납관리 스크린샷"
-                    width={200}
-                    height={100}
+                    src="/checkin.png"
+                    alt="출결관리 스크린샷"
+                    width={500}
+                    height={300}
                     className="rounded-md mx-auto"
                   />
                 </div>
@@ -103,11 +122,23 @@ export default function Features() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-function FeatureCard({ title, description, icon, percentage, backContent }) {
-  const [isFlipped, setIsFlipped] = useState(false)
+function FeatureCard({
+  title,
+  description,
+  icon,
+  percentage,
+  backContent,
+}: {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  percentage: number;
+  backContent: React.ReactNode;
+}) {
+  const [isFlipped, setIsFlipped] = useState(false);
 
   return (
     <div
@@ -154,5 +185,5 @@ function FeatureCard({ title, description, icon, percentage, backContent }) {
         </Card>
       </motion.div>
     </div>
-  )
+  );
 }

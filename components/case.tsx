@@ -15,6 +15,56 @@ import { supabase } from "@/lib/supabase"
 // Blog grid layout background colors
 const bgColors = ["bg-[#E6F4EA]", "bg-[#E8F0FE]", "bg-[#FEF7E0]", "bg-[#FEEAE6]"]
 
+// 호버 애니메이션 변수
+const cardVariants = {
+  initial: { 
+    y: 0, 
+    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
+  },
+  hover: { 
+    y: -12, 
+    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 0 0 2px rgba(33, 115, 70, 0.3)",
+    transition: { type: "spring", stiffness: 400, damping: 17 }
+  }
+}
+
+const imageVariants = {
+  initial: { scale: 1 },
+  hover: { 
+    scale: 1.05,
+    transition: { duration: 0.4 }
+  }
+}
+
+const arrowVariants = {
+  initial: { x: 0 },
+  hover: { 
+    x: 5,
+    transition: { 
+      repeat: Infinity,
+      repeatType: "mirror" as const,
+      duration: 0.7
+    }
+  }
+}
+
+const titleVariants = {
+  initial: { scale: 1 },
+  hover: { 
+    scale: 1.02,
+    color: "#185C37",
+    transition: { duration: 0.2 }
+  }
+}
+
+const gridVariants = {
+  initial: { opacity: 0.1 },
+  hover: { 
+    opacity: 0.2,
+    transition: { duration: 0.3 }
+  }
+}
+
 export default function Case() {
   const [cases, setCases] = useState<BlogListItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -31,7 +81,7 @@ export default function Case() {
       if (error) {
         console.error("Error fetching case studies:", error)
       } else {
-        setCases(data || [])
+        setCases(data)
       }
       setIsLoading(false)
     }
@@ -40,14 +90,14 @@ export default function Case() {
   }, [])
 
   return (
-    <section className="py-20 md:py-32 bg-white">
+    <section className="py-20 md:py-32 bg-white" id="case">
       <div className="container px-4 md:px-6">
         <div className="text-center space-y-4 mb-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             <span className="text-[#217346]">성공 사례</span>로 증명된 효과
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            다양한 학원들이 StudyFlow와 함께 업무 효율을 높이고 시간을 절약한 사례를 확인하세요.
+            다양한 학원들이 ClassFlow와 함께 업무 효율을 높이고 시간을 절약한 사례를 확인하세요.
           </p>
         </div>
 
@@ -80,48 +130,61 @@ export default function Case() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
                 className="will-change-transform"
               >
-                <Card className="overflow-hidden border-t-4 border-t-[#217346] h-full">
-                  <div className="absolute right-0 top-0 h-16 w-16 opacity-10">
-                    <div className="grid h-full w-full grid-cols-4 grid-rows-4">
-                      {Array.from({ length: 16 }).map((_, i) => (
-                        <div key={i} className="border border-[#217346]"></div>
-                      ))}
-                    </div>
-                  </div>
+                <motion.div
+                  initial="initial"
+                  whileHover="hover"
+                  variants={cardVariants}
+                  className="h-full rounded-lg overflow-hidden"
+                >
+                  <Link href={`/blog/${caseStudy.id}`} className="block h-full">
+                    <Card className="overflow-hidden border-t-4 border-t-[#217346] h-full bg-white relative">
+                      <motion.div className="absolute right-0 top-0 h-16 w-16 opacity-10" variants={gridVariants}>
+                        <div className="grid h-full w-full grid-cols-4 grid-rows-4">
+                          {Array.from({ length: 16 }).map((_, i) => (
+                            <div key={i} className="border border-[#217346]"></div>
+                          ))}
+                        </div>
+                      </motion.div>
 
-                  {caseStudy.image_url && (
-                    <div className="relative h-48 w-full">
-                      <Image
-                        src={caseStudy.image_url}
-                        alt={caseStudy.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
+                      {caseStudy.image_url && (
+                        <div className="relative h-48 w-full overflow-hidden">
+                          <motion.div className="w-full h-full" variants={imageVariants}>
+                            <Image
+                              src={caseStudy.image_url}
+                              alt={caseStudy.title}
+                              fill
+                              className="object-cover"
+                            />
+                          </motion.div>
+                        </div>
+                      )}
 
-                  <CardHeader className={`${bgColors[index % bgColors.length]} bg-opacity-30`}>
-                    <CardTitle className="text-xl">{caseStudy.title}</CardTitle>
-                    <CardDescription className="text-gray-700">
-                      {format(new Date(caseStudy.created_at), "yyyy년 MM월 dd일", { locale: ko })}
-                    </CardDescription>
-                  </CardHeader>
+                      <CardHeader className={`${bgColors[index % bgColors.length]} bg-opacity-30`}>
+                        <motion.div variants={titleVariants}>
+                          <CardTitle className="text-xl transition-colors">{caseStudy.title}</CardTitle>
+                        </motion.div>
+                        <CardDescription className="text-gray-700">
+                          {format(new Date(caseStudy.created_at), "yyyy년 MM월 dd일", { locale: ko })}
+                        </CardDescription>
+                      </CardHeader>
 
-                  <CardContent className="pt-6">
-                    <p className="text-gray-600">{caseStudy.subtitle}</p>
-                  </CardContent>
+                      <CardContent>
+                        <p className="text-gray-600">{caseStudy.subtitle}</p>
+                      </CardContent>
 
-                  <CardFooter>
-                    <Link href={`/blog/${caseStudy.id}`}>
-                      <Button variant="ghost" className="text-[#217346] hover:bg-[#E6F4EA] hover:text-[#217346] p-0">
-                        자세히 보기 <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </Link>
-                  </CardFooter>
-                </Card>
+                      <CardFooter>
+                        <Button variant="ghost" className="text-[#217346] hover:bg-[#E6F4EA] hover:text-[#217346] px-2 group">
+                          자세히 보기 
+                          <motion.span variants={arrowVariants} className="inline-block ml-2">
+                            <ArrowRight className="h-4 w-4" />
+                          </motion.span>
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  </Link>
+                </motion.div>
               </motion.div>
             ))}
           </div>

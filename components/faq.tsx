@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ChevronDown, Filter } from "lucide-react"
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, Filter } from "lucide-react";
 
 export default function Faq() {
   const faqs = [
@@ -14,7 +14,7 @@ export default function Faq() {
     {
       question: "코딩 지식이 필요한가요?",
       answer:
-        "전혀 필요하지 않습니다. StudyFlow는 코딩 지식 없이도 쉽게 설정하고 사용할 수 있도록 설계되었습니다. 간단한 설정만으로 자동화를 시작할 수 있습니다.",
+        "전혀 필요하지 않습니다. ClassFlow는 코딩 지식 없이도 쉽게 설정하고 사용할 수 있도록 설계되었습니다. 간단한 설정만으로 자동화를 시작할 수 있습니다.",
     },
     {
       question: "우리 학원에 맞게 커스터마이징이 가능한가요?",
@@ -36,7 +36,7 @@ export default function Faq() {
       answer:
         "이메일, 전화, 실시간 채팅을 통해 신속한 기술 지원을 제공합니다. 프리미엄 요금제 사용자는 우선 지원을 받을 수 있습니다.",
     },
-  ]
+  ];
 
   return (
     <section className="py-20 md:py-32">
@@ -45,7 +45,9 @@ export default function Faq() {
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             자주 묻는 <span className="text-[#217346]">질문</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">StudyFlow에 대해 궁금한 점을 확인하세요.</p>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            ClassFlow에 대해 궁금한 점을 확인하세요.
+          </p>
         </div>
 
         <div className="max-w-3xl mx-auto">
@@ -57,17 +59,30 @@ export default function Faq() {
 
           <div className="border border-t-0 rounded-b-lg overflow-hidden">
             {faqs.map((faq, index) => (
-              <FaqItem key={index} question={faq.question} answer={faq.answer} isLast={index === faqs.length - 1} />
+              <FaqItem
+                key={index}
+                question={faq.question}
+                answer={faq.answer}
+                isLast={index === faqs.length - 1}
+              />
             ))}
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-function FaqItem({ question, answer, isLast }) {
-  const [isOpen, setIsOpen] = useState(false)
+function FaqItem({
+  question,
+  answer,
+  isLast,
+}: {
+  question: string;
+  answer: string;
+  isLast: boolean;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className={`${!isLast ? "border-b" : ""}`}>
@@ -77,7 +92,11 @@ function FaqItem({ question, answer, isLast }) {
         aria-expanded={isOpen}
       >
         <span className="font-medium">{question}</span>
-        <ChevronDown className={`h-5 w-5 text-[#217346] transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        <ChevronDown
+          className={`h-5 w-5 text-[#217346] transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
       </button>
 
       <AnimatePresence>
@@ -94,5 +113,5 @@ function FaqItem({ question, answer, isLast }) {
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }

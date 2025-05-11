@@ -6,7 +6,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data: blogs } = await getAllBlogs(1, 100) // Get up to 100 blog posts for the sitemap
 
   // Base URLs
-  const baseUrl = "https://studyflow.com"
+  const baseUrl = "https://classflow.mostercoop.co.kr"
 
   // Static routes
   const routes = [

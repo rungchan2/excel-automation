@@ -78,7 +78,7 @@ export default function Solution() {
             >
               <div className="relative h-[300px] w-full rounded-lg overflow-hidden border border-gray-200 shadow-lg">
                 <Image
-                  src="/placeholder.svg?height=300&width=500"
+                  src="/solution.png"
                   alt="Make.com integration with Excel"
                   width={500}
                   height={300}

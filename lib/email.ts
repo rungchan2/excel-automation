@@ -35,7 +35,7 @@ export const sendInquiryEmail = async (inquiryData: {
     const { data, error } = await supabase.functions.invoke("resend", {
       body: {
         to: "leeh09077@gmail.com",
-        subject: `[StudyFlow] 새로운 상담 신청 - ${inquiryData.name}님`,
+        subject: `[ClassFlow] 새로운 상담 신청 - ${inquiryData.name}님`,
         html: emailBody,
       },
     })

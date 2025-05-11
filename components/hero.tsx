@@ -23,7 +23,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col justify-center space-y-4"
+            className="flex flex-col justify-center space-y-4 w-full"
           >
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
               익숙한 엑셀에서 시작하는 스마트한 학원 관리 자동화
@@ -32,15 +32,17 @@ export default function Hero() {
               새로운 툴은 그만, 익숙한 환경에서 시작하는 스마트 학원 관리
             </p>
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
-              <Button className="bg-[#217346] hover:bg-[#185C37] text-white">
-                2주 무료 체험
-              </Button>
-              <Button
+              <Link href="/request">
+                <Button className="bg-[#217346] hover:bg-[#185C37] text-white">
+                  내 학원에 맞는 솔루션 찾기
+                </Button>
+              </Link>
+              {/* <Button
                 variant="outline"
                 className="border-[#217346] text-[#217346] hover:bg-[#F1F1F1]"
               >
                 <Link href="/request">상담받기</Link>
-              </Button>
+              </Button> */}
             </div>
           </motion.div>
 
@@ -50,7 +52,7 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex justify-center"
           >
-            <div className="relative h-[300px] w-[400px] sm:h-[400px] sm:w-[500px]">
+            <div className="relative h-[300px] w-[350px] sm:h-[400px] sm:w-[350px]">
               <Image
                 src="/hero.svg"
                 alt="Excel automation illustration"

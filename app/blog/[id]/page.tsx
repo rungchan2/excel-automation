@@ -10,31 +10,32 @@ import { ChevronLeft } from "lucide-react"
 
 // This enables dynamic rendering for this route
 export const dynamic = "force-dynamic"
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://classflow.monstercoop.co.kr"
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const paramsObj = params
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const paramsObj = await params
   const { data: blog, error } = await getBlogById(paramsObj.id)
 
   if (error || !blog) {
     return {
-      title: "블로그 포스트를 찾을 수 없습니다 | StudyFlow",
+      title: "블로그 포스트를 찾을 수 없습니다 | ClassFlow",
       description: "The requested blog post could not be found.",
     }
   }
 
   return {
-    title: `${blog.title} | StudyFlow 활용 사례`,
+    title: `${blog.title} | ClassFlow 활용 사례`,
     description: blog.subtitle,
     openGraph: {
       title: blog.title,
-      description: blog.subtitle,
+      description: blog.subtitle || "",
       type: "article",
       publishedTime: blog.created_at,
-      url: `https://studyflow.com/blog/${blog.id}`,
+      url: `${baseUrl}/blog/${blog.id}`,
       images: [
         {
-          url: blog.image_url || "https://studyflow.com/og-image.jpg",
+          url: blog.image_url || `${baseUrl}/og-image.jpg`,
           width: 1200,
           height: 630,
           alt: blog.title,
@@ -44,8 +45,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     twitter: {
       card: "summary_large_image",
       title: blog.title,
-      description: blog.subtitle,
-      images: [blog.image_url || "https://studyflow.com/og-image.jpg"],
+      description: blog.subtitle || "",
+      images: [blog.image_url || `${baseUrl}/og-image.jpg`],
     },
   }
 }
@@ -68,12 +69,12 @@ export default async function BlogDetailPage({ params }: { params: { id: string 
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: blog.title,
-    description: blog.subtitle,
+    description: blog.subtitle || "",
     datePublished: blog.created_at,
-    image: blog.image_url || "https://studyflow.com/og-image.jpg",
+    image: blog.image_url || `${baseUrl}/og-image.jpg`,
     author: {
       "@type": "Organization",
-      name: "StudyFlow",
+      name: "ClassFlow",
     },
   }
 
@@ -113,7 +114,7 @@ export default async function BlogDetailPage({ params }: { params: { id: string 
                       src={blog.image_url || "/placeholder.svg"}
                       alt={blog.title}
                       fill
-                      className="object-cover"
+                      className="object-cover rounded-lg"
                       priority
                     />
                   </div>
@@ -141,7 +142,7 @@ export default async function BlogDetailPage({ params }: { params: { id: string 
                 <h2 className="text-xl font-bold mb-4">관련 사례</h2>
 
                 {relatedBlogs && relatedBlogs.length > 0 ? (
-                  <div className="space-y-4">
+                  <div className="grid grid-cols-1 gap-2">
                     {relatedBlogs.map((relatedBlog) => (
                       <Link href={`/blog/${relatedBlog.id}`} key={relatedBlog.id}>
                         <Card className="hover:shadow-md transition-shadow">
@@ -151,7 +152,7 @@ export default async function BlogDetailPage({ params }: { params: { id: string 
                                 src={relatedBlog.image_url || "/placeholder.svg"}
                                 alt={relatedBlog.title}
                                 fill
-                                className="object-cover"
+                                className="object-cover rounded-lg"
                               />
                             </div>
                           )}
