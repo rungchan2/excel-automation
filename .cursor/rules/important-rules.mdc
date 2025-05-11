@@ -1,0 +1,157 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# StudyFlow .cursorrules
+
+## 프로젝트 개요
+- 엑셀 기반 학원 자동화 서비스
+- Make.com과 Excel 연동 자동화
+- 학원장의 반복 업무를 자동화, 새로운 툴 학습 없이 사용 가능
+
+## 주요 기술 스택
+- Next.js 14 (App Router)
+- TypeScript (strict mode)
+- Tailwind CSS
+- shadcn/ui 컴포넌트
+- Framer Motion (애니메이션)
+- Make.com 연동
+- Vercel 배포
+
+## 디자인 시스템 규칙
+### 색상
+- Primary: #217346 (엑셀 그린)
+- Secondary: #F1F1F1 (엑셀 시트 배경)
+- Accent: #185C37 (강조용 다크 그린)
+- Error: 빨간색 (미납 상태)
+- Success: 초록색 (납부 상태)
+
+### 타이포그래피
+- 기본 언어: 한국어
+- 톤: 전문적이고 비즈니스 지향
+- 용어 일관성:
+  - "자동화" (automation)
+  - "엑셀" (Excel)
+  - "학원" (academy)
+  - "출결" (attendance)
+  - "수납" (payment)
+  - "문자" (SMS)
+
+### 비주얼 요소
+- 엑셀 그리드 패턴 배경
+- 셀 선택 효과 (인터랙티브 요소)
+- 스프레드시트 레이아웃
+- 자동화 기어/화살표 아이콘
+- Before/After 비교 시각화
+
+### 컴포넌트 패턴
+- 함수형 컴포넌트 + React Hooks
+- TypeScript 타입 엄격 적용
+- Framer Motion으로 페이지 전환/애니메이션
+- 모바일 우선 반응형 디자인
+
+### 네이밍 규칙
+- 컴포넌트 파일: PascalCase
+- 유틸 함수: camelCase
+- CSS 클래스: kebab-case
+- 변수: camelCase
+- 상수: UPPER_SNAKE_CASE
+
+## 기능별 규칙
+### 랜딩페이지 섹션
+1. Header: 반응형 내비, 모바일 메뉴, Excel green CTA
+2. Hero: 메인 가치제안, 엑셀 그리드 배경
+3. Problem: 시간 낭비 시나리오 시각화
+4. Solution: 자동화 기능 개요
+5. Solution2: SMS/수납 자동화 예시 비교
+6. Features: 3대 기능 인터랙티브 플립카드
+7. Pricing: 엑셀 표 스타일 비교
+8. FAQ: Excel 필터 디자인 아코디언
+9. Footer: Excel 하단바 스타일 연락처
+
+### 상담 폼(/request)
+- Zod 등으로 폼 검증
+- 툴별 문제 조건부 렌더링
+- 성공/에러 상태 처리
+- 메인 사이트와 동일한 반응형
+
+### 애니메이션 가이드
+- 섹션별 진입 애니메이션(미묘하게)
+- 인터랙티브 요소 hover 효과
+- Framer Motion 페이지 전환
+- 스크롤 시 Excel 수식 애니메이션(SUM, AVERAGE)
+- 기능 카드 플립 효과
+
+## API/통합
+### Make.com 연동
+- 자동화 워크플로우 스크린샷 플레이스홀더
+- Excel-Make.com 연결 시각화
+- Before/After 비교 이미지
+
+### 폼 처리
+- 상담 폼 제출
+- 검증 에러 메시지
+- 성공 확인
+
+## 성능 최적화
+- Next.js Image로 이미지 최적화
+- 폴드 이하 콘텐츠 lazy loading
+- 라우트 기반 코드 분할
+- SEO용 메타 태그
+
+## 접근성
+- 시맨틱 HTML
+- ARIA 라벨
+- 키보드 내비게이션
+- 색상 대비 준수
+- 모든 이미지 alt 텍스트
+
+## SEO
+- 한국어 메타 설명
+- 비즈니스 정보 스키마 마크업
+- Open Graph 태그
+- 파비콘/앱 아이콘
+- 사이트맵 생성
+
+## 코드 스타일
+- ESLint, Prettier 사용
+- Airbnb 스타일 가이드
+- 복잡한 로직은 한글 주석
+- TypeScript strict mode
+- 에러 바운더리 구현
+
+## 테스트 전략
+- 유틸 함수 단위 테스트
+- 폼 제출 통합 테스트
+- E2E 사용자 여정 테스트
+- axe로 접근성 테스트
+
+## 배포 규칙
+- API 키 등 환경변수 사용
+- 스테이징/프로덕션 환경 분리
+- 자동화된 배포 파이프라인
+- 에러 모니터링
+
+## 문서화
+- JSDoc으로 컴포넌트 문서화
+- API 엔드포인트 문서화
+- 배포/로컬 개발 가이드
+
+## 보안
+- 폼 입력값 Sanitization
+- 폼 제출 Rate Limiting
+- HTTPS 강제
+- 환경변수 보안
+- CORS 설정
+
+## 브라우저 지원
+- Chrome, Safari, Firefox, Edge (최신)
+- 모바일(iOS Safari, Chrome Android)
+
+## 유지보수
+- 정기적 의존성 업데이트
+- 보안 패치 관리
+- 콘텐츠 업데이트 프로세스
+- 성능 모니터링
+- 사용자 피드백 반영 

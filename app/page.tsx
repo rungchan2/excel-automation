@@ -6,6 +6,7 @@ import Solution from "@/components/solution"
 import Features from "@/components/features"
 import Differentiation from "@/components/differentiation"
 import Pricing from "@/components/pricing"
+import Case from "@/components/case"
 import Faq from "@/components/faq"
 import Cta from "@/components/cta"
 import Footer from "@/components/footer"
@@ -22,6 +23,7 @@ export default function Home() {
         <Features />
         <Differentiation />
         <Pricing />
+        <Case />
         <Faq />
         <Cta />
       </main>
