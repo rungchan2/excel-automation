@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description: "다양한 학원들이 ClassFlow와 함께 업무 효율을 높이고 시간을 절약한 사례를 확인하세요.",
     type: "website",
     url: `${baseUrl}/blog`,
-    siteName: "ClassFlow",
+    siteName: "클라스플로우 ClassFlow",
   },
 }
 

@@ -1,28 +1,33 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Facebook, Instagram, Mail, Phone } from "lucide-react"
+import Link from "next/link";
+import { Facebook, Instagram, Mail, Phone } from "lucide-react";
 
 const companyInfo = {
-  name: "ClassFlow",
-  address: "서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층",
-  phone: "010-2625-9706",
-  email: "info@monstercoop.co.kr",
-}
+  이름: "몬스터 협동조합",
+  대표자: "강승원",
+  사업자등록번호: "246-88-02301",
+  주소: "서울시 마포구 양화로 124, 로컬스티치 3F",
+  전화번호: "010-2625-9706",
+};
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer className="border-t bg-white">
       <div className="container px-4 py-12 md:px-6 md:py-16">
         <div className="flex gap-8 justify-between flex-col md:flex-row">
-          <div>
-            <div className="mb-4 flex items-center">
-              <span className="text-2xl font-bold text-[#217346]">Class</span>
-              <span className="text-2xl font-bold text-gray-800">Flow</span>
+          <div className="flex flex-col justify-between">
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center">
+                <span className="text-2xl font-bold text-[#217346]">Class</span>
+                <span className="text-2xl font-bold text-gray-800">Flow</span>
+              </div>
+              <p className="text-sm text-gray-500 mb-4">
+                익숙한 엑셀에서 시작하는 스마트한 학원 관리 자동화 솔루션
+              </p>
             </div>
-            <p className="text-sm text-gray-500 mb-4">익숙한 엑셀에서 시작하는 스마트한 학원 관리 자동화 솔루션</p>
             <div className="flex space-x-4">
               <Link href="#" className="text-gray-500 hover:text-[#217346]">
                 <Facebook className="h-5 w-5" />
@@ -32,7 +37,10 @@ export default function Footer() {
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
               </Link>
-              <Link href="#" className="text-gray-500 hover:text-[#217346]">
+              <Link
+                href="mailto:info@monstercoop.co.kr"
+                className="text-gray-500 hover:text-[#217346]"
+              >
                 <Mail className="h-5 w-5" />
                 <span className="sr-only">Email</span>
               </Link>
@@ -81,14 +89,24 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-[#217346]" />
-                <span className="text-gray-500">010-2625-9706</span>
+                <Link href="tel:01026259706" className="text-gray-500">
+                  010-2625-9706
+                </Link>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-[#217346]" />
-                <span className="text-gray-500">info@monstercoop.co.kr</span>
+                <Link
+                  href="mailto:info@monstercoop.co.kr"
+                  className="text-gray-500"
+                >
+                  info@monstercoop.co.kr
+                </Link>
               </li>
               <li>
-                <Link href="/#faq" className="text-gray-500 hover:text-[#217346]">
+                <Link
+                  href="/#faq"
+                  className="text-gray-500 hover:text-[#217346]"
+                >
                   자주 묻는 질문
                 </Link>
               </li>
@@ -98,15 +116,27 @@ export default function Footer() {
 
         <div className="mt-12 border-t pt-6">
           <div className="flex flex-col sm:flex-row justify-between items-center">
-            <p className="text-xs text-gray-500">&copy; {currentYear} ClassFlow. All rights reserved.</p>
+            <p className="text-xs text-gray-500">
+              &copy; {currentYear} ClassFlow. All rights reserved.
+            </p>
             <div className="flex gap-4 mt-4 sm:mt-0">
-              <Link href="#" className="text-xs text-gray-500 hover:text-[#217346]">
+              <Link
+                href="#"
+                className="text-xs text-gray-500 hover:text-[#217346]"
+              >
                 개인정보처리방침
               </Link>
-              <Link href="#" className="text-xs text-gray-500 hover:text-[#217346]">
+              <Link
+                href="#"
+                className="text-xs text-gray-500 hover:text-[#217346]"
+              >
                 이용약관
               </Link>
-              <Link href="/sitemap.xml" target="_blank" className="text-xs text-gray-500 hover:text-[#217346]">
+              <Link
+                href="/sitemap.xml"
+                target="_blank"
+                className="text-xs text-gray-500 hover:text-[#217346]"
+              >
                 사이트맵
               </Link>
             </div>
@@ -130,5 +160,5 @@ export default function Footer() {
         </motion.div> */}
       </div>
     </footer>
-  )
+  );
 }

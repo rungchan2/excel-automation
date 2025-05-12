@@ -25,7 +25,7 @@ export default function Problem() {
       <div className="container px-4 md:px-6">
         <motion.div style={{ opacity, y }} className="max-w-3xl mx-auto text-center space-y-8">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            매일 2시간씩 출결/문자 관리, 주 4시간의 수납 확인...
+            매일 2시간씩 출결/문자 관리, <br/>주 4시간의 수납 확인...
             <span className="block text-[#217346]">익숙한 이야기인가요?</span>
           </h2>
 
@@ -71,19 +71,63 @@ export default function Problem() {
 function CountUp({ end, suffix = "" }) {
   const [displayValue, setDisplayValue] = useState(0)
   const ref = useRef<HTMLSpanElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  })
-
+  const [inView, setInView] = useState(false)
+  
   useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange((value) => {
-      const calculated = Math.floor(value * end)
-      setDisplayValue(calculated > end ? end : calculated)
-    })
-
-    return () => unsubscribe()
-  }, [scrollYProgress, end])
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true)
+        }
+      },
+      { threshold: 0.1 }
+    )
+    
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+    
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current)
+      }
+    }
+  }, [])
+  
+  useEffect(() => {
+    if (!inView) return
+    
+    let startTime: number | null = null
+    const duration = 1000 // 카운트업 지속 시간 (ms)
+    
+    const easeInOutCubic = (t: number): number => {
+      return t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2
+    }
+    
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp
+      const elapsedTime = timestamp - startTime
+      const progress = Math.min(elapsedTime / duration, 1)
+      const easedProgress = easeInOutCubic(progress)
+      
+      const value = Math.floor(easedProgress * end)
+      setDisplayValue(value)
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate)
+      } else {
+        setDisplayValue(end)
+      }
+    }
+    
+    requestAnimationFrame(animate)
+    
+    return () => {
+      startTime = null
+    }
+  }, [inView, end])
 
   return (
     <span ref={ref}>
