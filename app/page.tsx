@@ -20,9 +20,9 @@ export default function Home() {
         <Problem />
         <Solution2 />
         <Solution />
-        <Features />
+        {/* <Features /> */}
         <Differentiation />
-        <Pricing />
+        {/* <Pricing /> */}
         <Case />
         <Faq />
         <Cta />

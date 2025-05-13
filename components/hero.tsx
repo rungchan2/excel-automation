@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Hero() {
@@ -12,13 +11,13 @@ export default function Hero() {
       <div className="absolute inset-0 z-0 opacity-5">
         <div className="grid h-full w-full grid-cols-12 grid-rows-12">
           {Array.from({ length: 144 }).map((_, i) => (
-            <div key={i} className="border border-gray-300"></div>
+            <div key={i} className="border border-gray-400"></div>
           ))}
         </div>
       </div>
 
       <div className="container relative z-10 px-4 md:px-6">
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 items-center lg:px-12 md:px-8 sm:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -46,7 +45,7 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -61,19 +60,7 @@ export default function Hero() {
                 className="object-contain"
                 priority
               />
-
-              {/* Animated gears */}
-              <motion.div
-                className="absolute top-1/4 right-1/4"
-                animate={{ rotate: 360 }}
-                transition={{
-                  duration: 20,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "linear",
-                }}
-              >
-                <div className="h-12 w-12 rounded-full border-4 border-[#217346] border-t-transparent" />
-              </motion.div>
+              
 
               <motion.div
                 className="absolute bottom-1/3 left-1/3"
@@ -87,7 +74,7 @@ export default function Hero() {
                 <div className="h-8 w-8 rounded-full border-4 border-[#185C37] border-t-transparent" />
               </motion.div>
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
     </section>

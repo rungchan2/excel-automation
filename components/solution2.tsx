@@ -347,7 +347,7 @@ export default function Solution2() {
           >
             <div className="text-center space-y-4">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                <span className="text-[#217346]">자동화</span> 기능 살펴보기
+                어떤 <span className="text-[#217346]">자동화</span> 인가요?
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                 엑셀 기반으로 학원 운영의 핵심 업무를 자동화하여 시간과 비용을

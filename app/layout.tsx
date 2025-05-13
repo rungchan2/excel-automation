@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "클라스플로우 ClassFlow",
-  description: "학원 운영에 필요한 반복적인 업무들이 소중한 시간을 빼앗고 있습니다. 이제 자동화로 시간을 되찾으세요",
+  title: "[클라스플로우] ClassFlow",
+  description: "학원 운영에 필요한 반복적인 업무들로 부터 해방! 효율적인 자동화로 시간을 되찾으세요",
   icons: {
     icon: "/favicon.ico",
   },
