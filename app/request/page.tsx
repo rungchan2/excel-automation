@@ -40,8 +40,8 @@ const options = [
     value: "구글 시트",
   },
   {
-    label: "구글 클라스룸",
-    value: "구글 클라스룸",
+    label: "구글 클래스룸",
+    value: "구글 클래스룸",
   },
   {
     label: "레플릿",

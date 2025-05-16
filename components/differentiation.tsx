@@ -107,7 +107,7 @@ export default function Differentiation() {
             
             <div className="text-center mb-6">
               <h3 className="text-xl font-bold text-[#217346] mb-2">
-                클라스플로우의 자동화 서비스
+                클래스플로우의 자동화 서비스
               </h3>
               <p className="text-gray-600">
                 학원 상황에 맞는 맞춤 자동화 서비스
