@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { CtaButton } from "./ui/cta-button";
 
 export default function Hero() {
   return (
@@ -31,11 +32,7 @@ export default function Hero() {
               새로운 툴은 그만, 익숙한 환경에서 시작하는 스마트 학원 관리
             </p>
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
-              <Link href="/request">
-                <Button className="bg-[#217346] hover:bg-[#185C37] text-white">
-                  내 학원에 맞는 솔루션 찾기
-                </Button>
-              </Link>
+              <CtaButton variant="main" />
               {/* <Button
                 variant="outline"
                 className="border-[#217346] text-[#217346] hover:bg-[#F1F1F1]"

@@ -357,8 +357,8 @@ export default function Solution2() {
 
             {/* 학부모 문자 자동화 */}
             <div className="relative py-12 group">
-              <h3 className="text-2xl font-bold text-[#217346] text-center mb-8">
-                학부모 문자 자동화
+              <h3 className="text-3xl font-bold text-[#217346] text-center mb-8">
+                문자 자동화
               </h3>
               <p className="text-gray-600 text-center max-w-2xl mx-auto mb-12">
                 출결 상태에 입력하면 문자 자동 발송, 별도 툴 없이 엑셀 그대로
