@@ -65,7 +65,7 @@ export default function Header() {
               transition={{ duration: 0.3 }}
             >
               <div className="flex items-center">
-                <span className="text-2xl font-bold text-[#217346]">Study</span>
+                <span className="text-2xl font-bold text-[#217346]">Class</span>
                 <span className="text-2xl font-bold text-gray-800">Flow</span>
               </div>
             </motion.div>
