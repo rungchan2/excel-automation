@@ -1,4 +1,4 @@
-import { Client, APIErrorCode } from "@notionhq/client";
+import { Client } from "@notionhq/client";
 import getRecordMap from "./noiton-page-render";
 import type { Blog, BlogListItem } from "@/types/blog";
 
@@ -43,6 +43,13 @@ function extractDate(properties: any): string {
   return dateProp.date.start || new Date().toISOString();
 }
 
+function extractCategory(properties: any): string[] | null {
+  const categoryProp = properties.category || properties["카테고리"];
+  if (!categoryProp) return null;
+  
+  return categoryProp.multi_select?.map((c: any) => c.name) || null;
+}
+
 function extractCoverImage(page: any): string | null {
   if (!page.cover) return null;
   
@@ -53,61 +60,6 @@ function extractCoverImage(page: any): string | null {
   }
   
   return null;
-}
-
-// 전체 블로그 목록 가져오기 (페이지네이션 포함)
-export async function getAllNotionBlogs(
-  page = 1,
-  pageSize = 9
-): Promise<{ data: BlogListItem[] | null; error: Error | null; count: number }> {
-  try {
-    // 게시 상태(publish=true)인 항목만 필터링하도록 설정
-    const response = await notion.databases.query({
-      database_id: databaseId,
-      filter: {
-        property: "publish",
-        checkbox: {
-          equals: true,
-        },
-      },
-      sorts: [
-        {
-          property: "date",
-          direction: "descending",
-        },
-      ],
-      page_size: 100, // 일단 최대치로 가져온 후 클라이언트에서 페이지네이션
-    });
-    
-    // 결과를 BlogListItem 형식으로 변환
-    const blogs = response.results.map((page: any) => {
-      return {
-        id: page.id,
-        title: extractTitle(page.properties),
-        subtitle: extractSubtitle(page.properties),
-        created_at: extractDate(page.properties),
-        image_url: extractCoverImage(page),
-      };
-    });
-    
-    // 페이지네이션 적용
-    const start = (page - 1) * pageSize;
-    const end = start + pageSize;
-    const paginatedBlogs = blogs.slice(start, end);
-    
-    return { 
-      data: paginatedBlogs, 
-      error: null, 
-      count: blogs.length 
-    };
-  } catch (error: any) {
-    console.error("Notion API 오류:", error);
-    return { 
-      data: null, 
-      error: new Error(error.message || "알 수 없는 오류가 발생했습니다"), 
-      count: 0 
-    };
-  }
 }
 
 // ID로 블로그 가져오기 (상세 페이지용)
@@ -128,6 +80,7 @@ export async function getNotionBlogById(id: string): Promise<{ data: Blog | null
       created_at: extractDate(page.properties),
       image_url: extractCoverImage(page),
       recordMap: recordMap,
+      category: extractCategory(page.properties),
     };
     
     return { data: blog, error: null };
@@ -150,14 +103,10 @@ export async function getNotionRelatedBlogs(
     const response = await notion.databases.query({
       database_id: databaseId,
       filter: {
-        and: [
-          {
-            property: "publish",
-            checkbox: {
-              equals: true,
-            },
-          },
-        ],
+        property: "publish",
+        status: {
+          equals: "published",
+        },
       },
       sorts: [
         {

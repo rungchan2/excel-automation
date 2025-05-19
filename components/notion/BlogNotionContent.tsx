@@ -14,9 +14,6 @@ interface BlogNotionContentProps {
 }
 
 export default function BlogNotionContent({ recordMap }: BlogNotionContentProps) {
-  if (!recordMap) {
-    return <div className="py-8 text-center text-gray-500">콘텐츠를 불러올 수 없습니다.</div>;
-  }
-
+  
   return <NotionRenderer recordMap={recordMap} />;
 } 

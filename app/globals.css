@@ -79,6 +79,9 @@
 .notion-text {
   @apply text-base text-gray-700;
 }
+.notion-collection-page-properties {
+  display: none !important;
+}
 
 .notion-h1,
 .notion-h2,

@@ -6,6 +6,7 @@ export interface Blog {
   created_at: string
   image_url?: string | null
   recordMap?: any // Notion 페이지 렌더링을 위한 recordMap
+  category: string[] | null
 }
 
 export interface BlogListItem {

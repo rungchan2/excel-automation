@@ -1,8 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { format } from "date-fns";
-import { ko } from "date-fns/locale";
+import dayjs from "@/lib/dayjs";
 import {
   Card,
   CardContent,
@@ -71,9 +70,7 @@ async function BlogList({ page = 1 }: { page?: number }) {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-gray-500">
-                  {format(new Date(blog.created_time), "yyyy년 MM월 dd일", {
-                    locale: ko,
-                  })}
+                  {dayjs(blog.created_time).format("YYYY년 MM월 DD일")}
                 </p>
               </CardContent>
               <CardFooter>

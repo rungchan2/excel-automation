@@ -2,9 +2,8 @@ import * as React from "react";
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-import { format } from "date-fns";
-import { ko } from "date-fns/locale";
+import dayjs from "@/lib/dayjs";
+
 import { notFound } from "next/navigation";
 import { getNotionBlogById, getNotionRelatedBlogs } from "@/lib/notion-blog";
 import {
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { ChevronLeft } from "lucide-react";
 import BlogNotionContent from "@/components/notion/BlogNotionContent";
+import BlogImage from "@/components/blog/BlogImage";
 
 // This enables dynamic rendering for this route
 export const dynamic = "force-dynamic";
@@ -76,9 +76,7 @@ export default async function BlogDetailPage(props: {
   const { data: relatedBlogs } = await getNotionRelatedBlogs(id);
 
   // Format the date
-  const formattedDate = format(new Date(blog.created_at), "yyyy년 MM월 dd일", {
-    locale: ko,
-  });
+  const formattedDate = dayjs(blog.created_at).format("YYYY년 MM월 DD일");
 
   // Add structured data for SEO (JSON-LD)
   const jsonLd = {
@@ -88,6 +86,7 @@ export default async function BlogDetailPage(props: {
     description: blog.subtitle || "",
     datePublished: blog.created_at,
     image: blog.image_url || `${baseUrl}/og-image.jpg`,
+    category: blog.category,
     author: {
       "@type": "Organization",
       name: "ClassFlow",
@@ -133,15 +132,7 @@ export default async function BlogDetailPage(props: {
               {/* Blog post content */}
               <article className="bg-white rounded-lg shadow-sm overflow-hidden">
                 {blog.image_url && (
-                  <div className="relative h-[300px] w-full">
-                    <Image
-                      src={blog.image_url || "/placeholder.svg"}
-                      alt={blog.title}
-                      fill
-                      className="object-cover rounded-lg"
-                      priority
-                    />
-                  </div>
+                  <BlogImage imageUrl={blog.image_url} title={blog.title} />
                 )}
 
                 <div className="p-6 md:p-8">
@@ -149,7 +140,23 @@ export default async function BlogDetailPage(props: {
                     {blog.title}
                   </h1>
                   <p className="text-lg text-gray-600 mb-4">{blog.subtitle}</p>
-                  <p className="text-sm text-gray-500 mb-8">{formattedDate}</p>
+                  <div className="flex items-center gap-2 justify-between">
+                    {blog.category && (
+                      <p className="text-sm text-gray-500 mb-8">
+                        {blog.category.map((category) => (
+                          <span
+                            key={category}
+                            className="mr-2  bg-gray-100 rounded-lg p-2"
+                          >
+                            {category}
+                          </span>
+                        ))}
+                      </p>
+                    )}
+                    <p className="text-sm text-gray-500 mb-8">
+                      {formattedDate}
+                    </p>
+                  </div>
 
                   {/* Notion 콘텐츠 렌더링 */}
                   {blog.recordMap && (
@@ -163,7 +170,7 @@ export default async function BlogDetailPage(props: {
 
             <div>
               {/* Related posts sidebar */}
-              <div className="sticky top-24">
+              <div className="sticky top-32">
                 <h2 className="text-xl font-bold mb-4">관련 사례</h2>
 
                 {relatedBlogs && relatedBlogs.length > 0 ? (
@@ -175,16 +182,11 @@ export default async function BlogDetailPage(props: {
                       >
                         <Card className="hover:shadow-md transition-shadow">
                           {relatedBlog.image_url && (
-                            <div className="relative h-32 w-full">
-                              <Image
-                                src={
-                                  relatedBlog.image_url || "/placeholder.svg"
-                                }
-                                alt={relatedBlog.title}
-                                fill
-                                className="object-cover rounded-lg"
-                              />
-                            </div>
+                            <BlogImage 
+                              imageUrl={relatedBlog.image_url} 
+                              title={relatedBlog.title} 
+                              height="h-32"
+                            />
                           )}
                           <CardHeader className="py-3">
                             <CardTitle className="text-base line-clamp-1">

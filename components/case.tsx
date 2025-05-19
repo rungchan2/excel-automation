@@ -1,93 +1,114 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import { format } from "date-fns"
-import { ko } from "date-fns/locale"
-import Image from "next/image"
-import { BlogListItem } from "@/types/blog"
-import { supabase } from "@/lib/supabase"
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import dayjs from "@/lib/dayjs";
+import Image from "next/image";
+import { BlogListItem } from "@/types/blog";
+import { getBlogList } from "@/lib/notion";
 
 // Blog grid layout background colors
-const bgColors = ["bg-[#E6F4EA]", "bg-[#E8F0FE]", "bg-[#FEF7E0]", "bg-[#FEEAE6]"]
+const bgColors = [
+  "bg-[#E6F4EA]",
+  "bg-[#E8F0FE]",
+  "bg-[#FEF7E0]",
+  "bg-[#FEEAE6]",
+];
 
 // 호버 애니메이션 변수
 const cardVariants = {
-  initial: { 
-    y: 0, 
-    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
+  initial: {
+    y: 0,
+    boxShadow:
+      "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
   },
-  hover: { 
-    y: -12, 
-    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 0 0 2px rgba(33, 115, 70, 0.3)",
-    transition: { type: "spring", stiffness: 400, damping: 17 }
-  }
-}
+  hover: {
+    y: -12,
+    boxShadow:
+      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 0 0 2px rgba(33, 115, 70, 0.3)",
+    transition: { type: "spring", stiffness: 400, damping: 17 },
+  },
+};
 
 const imageVariants = {
   initial: { scale: 1 },
-  hover: { 
+  hover: {
     scale: 1.05,
-    transition: { duration: 0.4 }
-  }
-}
+    transition: { duration: 0.4 },
+  },
+};
 
 const arrowVariants = {
   initial: { x: 0 },
-  hover: { 
+  hover: {
     x: 5,
-    transition: { 
+    transition: {
       repeat: Infinity,
       repeatType: "mirror" as const,
-      duration: 0.7
-    }
-  }
-}
+      duration: 0.7,
+    },
+  },
+};
 
 const titleVariants = {
   initial: { scale: 1 },
-  hover: { 
+  hover: {
     scale: 1.02,
     color: "#185C37",
-    transition: { duration: 0.2 }
-  }
-}
+    transition: { duration: 0.2 },
+  },
+};
 
 const gridVariants = {
   initial: { opacity: 0.1 },
-  hover: { 
+  hover: {
     opacity: 0.2,
-    transition: { duration: 0.3 }
-  }
-}
+    transition: { duration: 0.3 },
+  },
+};
 
 export default function Case() {
-  const [cases, setCases] = useState<BlogListItem[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [cases, setCases] = useState<BlogListItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchRecentCases() {
-      setIsLoading(true)
-      const { data, error } = await supabase
-        .from("blog")
-        .select("id, title, subtitle, created_at, image_url")
-        .order("created_at", { ascending: false })
-        .limit(4)
+      setIsLoading(true);
+      const { blogs, error } = await getBlogList(4);
+      const cases = blogs.map((blog) => ({
+        id: blog.id,
+        title: blog.properties.title.title[0].plain_text,
+        subtitle: blog.properties["sub-title"].rich_text[0].plain_text,
+        created_at: blog.properties.date.date.start,
+        image_url:
+          blog.cover?.type === "file"
+            ? (blog.cover as { file: { url: string } }).file.url
+            : blog.cover?.type === "external"
+            ? (blog.cover as { external: { url: string } }).external.url
+            : "",
+      }));
 
       if (error) {
-        console.error("Error fetching case studies:", error)
+        console.error("Error fetching case studies:", error);
       } else {
-        setCases(data)
+        setCases(cases);
       }
-      setIsLoading(false)
+      setIsLoading(false);
     }
 
-    fetchRecentCases()
-  }, [])
+    fetchRecentCases();
+  }, []);
 
   return (
     <section className="py-20 md:py-32 bg-white" id="case">
@@ -97,14 +118,18 @@ export default function Case() {
             <span className="text-[#217346]">성공 사례</span>로 증명된 효과
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            다양한 학원들이 ClassFlow와 함께 업무 효율을 높이고 시간을 절약한 사례를 확인하세요.
+            다양한 학원들이 ClassFlow와 함께 업무 효율을 높이고 시간을 절약한
+            사례를 확인하세요.
           </p>
         </div>
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {[1, 2, 3, 4].map((_, idx) => (
-              <Card key={idx} className="animate-pulse overflow-hidden border-t-4 border-t-[#217346] h-full">
+              <Card
+                key={idx}
+                className="animate-pulse overflow-hidden border-t-4 border-t-[#217346] h-full"
+              >
                 <div className="h-40 bg-gray-200"></div>
                 <CardHeader className="bg-gray-100">
                   <div className="h-6 bg-gray-300 rounded w-3/4"></div>
@@ -140,17 +165,26 @@ export default function Case() {
                 >
                   <Link href={`/blog/${caseStudy.id}`} className="block h-full">
                     <Card className="overflow-hidden border-t-4 border-t-[#217346] h-full bg-white relative">
-                      <motion.div className="absolute right-0 top-0 h-16 w-16 opacity-10" variants={gridVariants}>
+                      <motion.div
+                        className="absolute right-0 top-0 h-16 w-16 opacity-10"
+                        variants={gridVariants}
+                      >
                         <div className="grid h-full w-full grid-cols-4 grid-rows-4">
                           {Array.from({ length: 16 }).map((_, i) => (
-                            <div key={i} className="border border-[#217346]"></div>
+                            <div
+                              key={i}
+                              className="border border-[#217346]"
+                            ></div>
                           ))}
                         </div>
                       </motion.div>
 
                       {caseStudy.image_url && (
                         <div className="relative h-48 w-full overflow-hidden">
-                          <motion.div className="w-full h-full" variants={imageVariants}>
+                          <motion.div
+                            className="w-full h-full"
+                            variants={imageVariants}
+                          >
                             <Image
                               src={caseStudy.image_url}
                               alt={caseStudy.title}
@@ -161,12 +195,18 @@ export default function Case() {
                         </div>
                       )}
 
-                      <CardHeader className={`${bgColors[index % bgColors.length]} bg-opacity-30`}>
+                      <CardHeader
+                        className={`${
+                          bgColors[index % bgColors.length]
+                        } bg-opacity-30`}
+                      >
                         <motion.div variants={titleVariants}>
-                          <CardTitle className="text-xl transition-colors">{caseStudy.title}</CardTitle>
+                          <CardTitle className="text-xl transition-colors">
+                            {caseStudy.title}
+                          </CardTitle>
                         </motion.div>
                         <CardDescription className="text-gray-700">
-                          {format(new Date(caseStudy.created_at), "yyyy년 MM월 dd일", { locale: ko })}
+                          {dayjs(caseStudy.created_at).format("YYYY년 MM월 DD일")}
                         </CardDescription>
                       </CardHeader>
 
@@ -175,9 +215,15 @@ export default function Case() {
                       </CardContent>
 
                       <CardFooter>
-                        <Button variant="ghost" className="text-[#217346] hover:bg-[#E6F4EA] hover:text-[#217346] px-2 group">
-                          자세히 보기 
-                          <motion.span variants={arrowVariants} className="inline-block ml-2">
+                        <Button
+                          variant="ghost"
+                          className="text-[#217346] hover:bg-[#E6F4EA] hover:text-[#217346] px-2 group"
+                        >
+                          자세히 보기
+                          <motion.span
+                            variants={arrowVariants}
+                            className="inline-block ml-2"
+                          >
                             <ArrowRight className="h-4 w-4" />
                           </motion.span>
                         </Button>
@@ -192,10 +238,12 @@ export default function Case() {
 
         <div className="text-center mt-12">
           <Link href="/blog">
-            <Button className="bg-[#217346] hover:bg-[#185C37]">모든 활용 사례 보기</Button>
+            <Button className="bg-[#217346] hover:bg-[#185C37]">
+              모든 활용 사례 보기
+            </Button>
           </Link>
         </div>
       </div>
     </section>
-  )
+  );
 }

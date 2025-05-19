@@ -1,6 +1,7 @@
 "use server";
 
 import { Client, APIErrorCode } from "@notionhq/client";
+import { TBlogResult } from "@/types/notion";
 
 const databaseId = process.env.NOTION_DATABASE_ID as string;
 
@@ -13,55 +14,31 @@ const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
-type Property = {
-  id?: string;
-  type?: string;
-  [key: string]: any;
-};
 
-type BlogResult = {
-  object: "page";
-  id: string;
-  created_time: string;
-  last_edited_time: string;
-  created_by: { object: "user"; id: string };
-  last_edited_by: { object: "user"; id: string };
-  cover:
-    | { type: "file"; file: { url: string } }
-    | { type: "external"; external: { url: string } }
-    | null;
-  icon: { type: "emoji"; emoji: string } | null;
-  parent: {
-    type: "database_id";
-    database_id: string;
-  };
-  archived: boolean;
-  in_trash: boolean;
-  properties: {
-    date: Property;
-    publish: Property;
-    "sub-title": Property;
-    updated_at: Property;
-    category: Property;
-    thumbnail: Property;
-    title: Property;
-    [key: string]: Property;
-  };
-  url: string;
-  public_url: string | null;
-};
-
-export async function getBlogList(): Promise<{
-  blogs: BlogResult[];
+export async function getBlogList(limit: number = 10): Promise<{
+  blogs: TBlogResult[];
   error: any;
   total: number;
 }> {
   try {
     const blogList = await notion.databases.query({
       database_id: databaseId,
+      filter: {
+        property: "publish",
+        status: {
+          equals: "published",
+        },
+      },
+      sorts: [
+        {
+          property: "date",
+          direction: "descending",
+        },
+      ],
+      page_size: limit,
     });
     return {
-      blogs: blogList.results as BlogResult[],
+      blogs: blogList.results as TBlogResult[],
       error: null,
       total: blogList.results.length,
     };

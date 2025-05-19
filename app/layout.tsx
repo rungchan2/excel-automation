@@ -4,6 +4,8 @@ import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { PostHogProvider } from "@/app/providers";
 import 'react-notion-x/src/styles.css'
+import "prismjs/themes/prism-tomorrow.css";
+import "katex/dist/katex.min.css";
 
 
 const geistSans = Geist({

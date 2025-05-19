@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -34,7 +35,18 @@ const Modal = dynamic(
 )
 
 export default function NotionRenderer({ recordMap, className = '' }: { recordMap: any; className?: string }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
   if (!recordMap) {
+    return <div className="py-8 text-center text-gray-500">콘텐츠를 불러오는 중...</div>;
+  }
+
+  if (!mounted) {
     return <div className="py-8 text-center text-gray-500">콘텐츠를 불러오는 중...</div>;
   }
 
@@ -46,11 +58,11 @@ export default function NotionRenderer({ recordMap, className = '' }: { recordMa
           nextImage: Image,
           nextLink: Link,
           Code,
-          Collection,
           Equation,
           Pdf,
           Modal
         }}
+        disableHeader={true}
         fullPage={false}
         darkMode={false}
         showTableOfContents={false}
