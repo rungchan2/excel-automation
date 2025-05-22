@@ -39,7 +39,7 @@ export default function Faq() {
   ];
 
   return (
-    <section className="py-20 md:py-32">
+    <section id="faq" className="py-20 md:py-32">
       <div className="container px-4 md:px-6">
         <div className="text-center space-y-4 mb-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">

@@ -1,23 +1,13 @@
 "use client";
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  AnimatePresence,
-} from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
 import {
-  Clock,
   FileSpreadsheet,
-  RotateCcw,
-  Zap,
   ChevronDown,
   FileText,
   DownloadCloud,
 } from "lucide-react";
-import Image from "next/image";
 
 // ClientOnly wrapper component
 function ClientOnly({ children }: { children: React.ReactNode }) {
@@ -398,75 +388,75 @@ export default function Problem() {
 }
 
 // CountUp component for future use
-function CountUp({ end, suffix = "" }) {
-  const [displayValue, setDisplayValue] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const [inView, setInView] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+// function CountUp({ end, suffix = "" }) {
+//   const [displayValue, setDisplayValue] = useState(0);
+//   const ref = useRef<HTMLSpanElement>(null);
+//   const [inView, setInView] = useState(false);
+//   const [isMounted, setIsMounted] = useState(false);
 
-  // Prevent hydration mismatch by only rendering on client
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+//   // Prevent hydration mismatch by only rendering on client
+//   useEffect(() => {
+//     setIsMounted(true);
+//   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
+//   useEffect(() => {
+//     const observer = new IntersectionObserver(
+//       ([entry]) => {
+//         if (entry.isIntersecting) {
+//           setInView(true);
+//         }
+//       },
+//       { threshold: 0.1 }
+//     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+//     if (ref.current) {
+//       observer.observe(ref.current);
+//     }
 
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, []);
+//     return () => {
+//       if (ref.current) {
+//         observer.unobserve(ref.current);
+//       }
+//     };
+//   }, []);
 
-  useEffect(() => {
-    if (!inView) return;
+//   useEffect(() => {
+//     if (!inView) return;
 
-    let startTime: number | null = null;
-    const duration = 1000; // 카운트업 지속 시간 (ms)
+//     let startTime: number | null = null;
+//     const duration = 1000; // 카운트업 지속 시간 (ms)
 
-    const easeInOutCubic = (t: number): number => {
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    };
+//     const easeInOutCubic = (t: number): number => {
+//       return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+//     };
 
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const elapsedTime = timestamp - startTime;
-      const progress = Math.min(elapsedTime / duration, 1);
-      const easedProgress = easeInOutCubic(progress);
+//     const animate = (timestamp: number) => {
+//       if (!startTime) startTime = timestamp;
+//       const elapsedTime = timestamp - startTime;
+//       const progress = Math.min(elapsedTime / duration, 1);
+//       const easedProgress = easeInOutCubic(progress);
 
-      const value = Math.floor(easedProgress * end);
-      setDisplayValue(value);
+//       const value = Math.floor(easedProgress * end);
+//       setDisplayValue(value);
 
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        setDisplayValue(end);
-      }
-    };
+//       if (progress < 1) {
+//         requestAnimationFrame(animate);
+//       } else {
+//         setDisplayValue(end);
+//       }
+//     };
 
-    requestAnimationFrame(animate);
+//     requestAnimationFrame(animate);
 
-    return () => {
-      startTime = null;
-    };
-  }, [inView, end]);
+//     return () => {
+//       startTime = null;
+//     };
+//   }, [inView, end]);
 
-  return (
-    <span ref={ref}>
-      {isMounted ? displayValue : "0"}
-      {suffix}
-    </span>
-  );
-}
+//   return (
+//     <span ref={ref}>
+//       {isMounted ? displayValue : "0"}
+//       {suffix}
+//     </span>
+//   );
+// }

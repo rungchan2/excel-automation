@@ -2,6 +2,14 @@
 
 import Link from "next/link";
 import { Facebook, Instagram, Mail, Phone } from "lucide-react";
+import Image from "next/image";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const companyInfo = {
   이름: "몬스터 협동조합",
@@ -44,6 +52,28 @@ export default function Footer() {
                 <Mail className="h-5 w-5" />
                 <span className="sr-only">Email</span>
               </Link>
+              <TooltipProvider>
+                <Tooltip delayDuration={100}>
+                  <TooltipTrigger>
+                    <Link
+                      href="https://kmong.com/gig/668754"
+                      target="_blank"
+                      className="text-gray-500 hover:text-[#217346]"
+                    >
+                      <Image
+                        src="/kmong.svg"
+                        alt="Kmong"
+                        width={20}
+                        height={20}
+                        className="h-5 w-12"
+                      />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>클라스플로우의 크몽 상세페이지</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
 

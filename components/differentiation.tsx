@@ -5,7 +5,7 @@ import { CheckCircle, XCircle, FileSpreadsheet } from "lucide-react";
 
 export default function Differentiation() {
   return (
-    <section className="py-20 md:py-32 bg-[#F1F1F1]">
+    <section id="differentiation" className="py-20 md:py-32 bg-[#F1F1F1]">
       <div className="container px-4 md:px-6">
         <div className="text-center space-y-4 mb-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl relative">

@@ -15,6 +15,7 @@ import {
 import { ChevronLeft } from "lucide-react";
 import BlogNotionContent from "@/components/notion/BlogNotionContent";
 import BlogImage from "@/components/blog/BlogImage";
+import Image from "next/image";
 
 // This enables dynamic rendering for this route
 export const dynamic = "force-dynamic";
@@ -132,7 +133,12 @@ export default async function BlogDetailPage(props: {
               {/* Blog post content */}
               <article className="bg-white rounded-lg shadow-sm overflow-hidden">
                 {blog.image_url && (
-                  <BlogImage imageUrl={blog.image_url} title={blog.title} />
+                  <Image
+                    src={blog.image_url}
+                    alt={blog.title}
+                    width={1200}
+                    height={630}
+                  />
                 )}
 
                 <div className="p-6 md:p-8">

@@ -1,47 +1,59 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useScroll, useTransform, motion } from "framer-motion"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { useState, useEffect } from "react";
+import { useScroll, useTransform, motion } from "framer-motion";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { scrollY } = useScroll()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { scrollY } = useScroll();
 
   // Transform values based on scroll position
-  const headerWidth = useTransform(scrollY, [0, 50], ["100%", "82%"])
-  const headerBorderRadius = useTransform(scrollY, [0, 50], [0, 50])
-  const headerScale = useTransform(scrollY, [0, 50], [1, 0.98])
-  const headerShadow = useTransform(scrollY, [0, 50], ["0 0 0 rgba(0,0,0,0)", "0 10px 25px rgba(0,0,0,0.1)"])
-  const headerBackground = useTransform(scrollY, [0, 50], ["rgba(255,255,255,0.8)", "rgba(255,255,255,0.95)"])
-  const headerMarginTop = useTransform(scrollY, [0, 50], [0, 10])
+  const headerWidth = useTransform(scrollY, [0, 50], ["100%", "82%"]);
+  const headerBorderRadius = useTransform(scrollY, [0, 50], [0, 50]);
+  const headerScale = useTransform(scrollY, [0, 50], [1, 0.98]);
+  const headerShadow = useTransform(
+    scrollY,
+    [0, 50],
+    ["0 0 0 rgba(0,0,0,0)", "0 10px 25px rgba(0,0,0,0.1)"]
+  );
+  const headerBackground = useTransform(
+    scrollY,
+    [0, 50],
+    ["rgba(255,255,255,0.8)", "rgba(255,255,255,0.95)"]
+  );
+  const headerMarginTop = useTransform(scrollY, [0, 50], [0, 10]);
 
   // Close mobile menu when scrolling
   useEffect(() => {
     const handleScroll = () => {
       if (isMenuOpen) {
-        setIsMenuOpen(false)
+        setIsMenuOpen(false);
       }
-    }
+    };
 
     // Close menu when clicking outside
     const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      if (isMenuOpen && !target.closest(".mobile-menu") && !target.closest(".menu-button")) {
-        setIsMenuOpen(false)
+      const target = e.target as HTMLElement;
+      if (
+        isMenuOpen &&
+        !target.closest(".mobile-menu") &&
+        !target.closest(".menu-button")
+      ) {
+        setIsMenuOpen(false);
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    document.addEventListener("mousedown", handleClickOutside)
+    window.addEventListener("scroll", handleScroll);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll)
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [isMenuOpen])
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   return (
     <div className="sticky top-0 z-50 flex justify-center w-full pt-4 will-change-transform">
@@ -72,27 +84,46 @@ export default function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="#service" className="text-sm font-medium hover:text-[#217346] transition-colors">
+            <Link
+              href="#service"
+              className="text-sm font-medium hover:text-[#217346] transition-colors"
+            >
               서비스
             </Link>
-            <Link href="#features" className="text-sm font-medium hover:text-[#217346] transition-colors">
+            <Link
+              href="#solution2"
+              className="text-sm font-medium hover:text-[#217346] transition-colors"
+            >
               기능
             </Link>
-            <Link href="#pricing" className="text-sm font-medium hover:text-[#217346] transition-colors">
-              요금
+            <Link
+              href="#differentiation"
+              className="text-sm font-medium hover:text-[#217346] transition-colors"
+            >
+              차별화
             </Link>
-            <Link href="/blog" className="text-sm font-medium hover:text-[#217346] transition-colors">
+            <Link
+              href="#case"
+              className="text-sm font-medium hover:text-[#217346] transition-colors"
+            >
               활용 사례
             </Link>
-            <Link href="#contact" className="text-sm font-medium hover:text-[#217346] transition-colors">
-              상담
+            <Link
+              href="#faq"
+              className="text-sm font-medium hover:text-[#217346] transition-colors"
+            >
+              FAQ
             </Link>
             <Button className="bg-[#217346] hover:bg-[#185C37] text-white">
               <Link href="/request">상담받기!</Link>
             </Button>
           </nav>
 
-          <button className="md:hidden menu-button" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
+          <button
+            className="md:hidden menu-button"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -114,7 +145,7 @@ export default function Header() {
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.2 }}
         >
-          <div className="flex flex-col space-y-4 px-4 py-6 backdrop-blur-sm rounded-b-lg">
+          <div className="flex flex-col space-y-4 px-4 py-4 rounded-5xl">
             <Link
               href="#service"
               className="text-sm font-medium hover:text-[#217346]"
@@ -123,39 +154,40 @@ export default function Header() {
               서비스
             </Link>
             <Link
-              href="#features"
+              href="#solution2"
               className="text-sm font-medium hover:text-[#217346]"
               onClick={() => setIsMenuOpen(false)}
             >
               기능
             </Link>
             <Link
-              href="#pricing"
+              href="#differentiation"
               className="text-sm font-medium hover:text-[#217346]"
               onClick={() => setIsMenuOpen(false)}
             >
-              요금
+              차별화
             </Link>
             <Link
-              href="/blog"
+              href="#case"
               className="text-sm font-medium hover:text-[#217346]"
               onClick={() => setIsMenuOpen(false)}
             >
               활용 사례
             </Link>
             <Link
-              href="#contact"
+              href="#faq"
               className="text-sm font-medium hover:text-[#217346]"
-              onClick={() => setIsMenuOpen(false)}
             >
-              상담
+              FAQ
             </Link>
-            <Button className="bg-[#217346] hover:bg-[#185C37] text-white w-full" onClick={() => setIsMenuOpen(false)}>
-              <Link href="/request">상담받기!</Link>
+            <Button className="bg-[#217346] hover:bg-[#185C37] text-white w-full">
+              <Link href="/request" onClick={() => setIsMenuOpen(false)}>
+                상담받기!
+              </Link>
             </Button>
           </div>
         </motion.div>
       )}
     </div>
-  )
+  );
 }

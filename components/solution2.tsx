@@ -339,7 +339,7 @@ export default function Solution2() {
   return (
     <>
       <Toaster position="top-right" richColors />
-      <section ref={sectionRef} className="py-20 md:py-32 bg-white">
+      <section id="solution2" ref={sectionRef} className="py-20 md:py-32 bg-white">
         <div className="container px-4 md:px-6">
           <motion.div
             style={{ opacity, scale }}
