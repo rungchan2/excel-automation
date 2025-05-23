@@ -68,8 +68,8 @@
 
 /* Notion 스타일 커스터마이징 */
 .notion-page {
-  padding: 0;
-  margin: 0;
+  padding: 0 !important;
+
 }
 
 .notion-title {

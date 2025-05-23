@@ -102,7 +102,7 @@ export default async function BlogDetailPage(props: {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="py-12 md:py-20">
+      <div className="py-12 md:py-20 max-w-[1080px] mx-auto">
         <div className="container px-4 md:px-6">
           {/* Breadcrumb navigation */}
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
@@ -128,8 +128,8 @@ export default async function BlogDetailPage(props: {
             모든 활용 사례 보기
           </Link>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
+          <div className="grid grid-cols-1 lg:grid-cols-7 gap-8">
+            <div className="lg:col-span-5">
               {/* Blog post content */}
               <article className="bg-white rounded-lg shadow-sm overflow-hidden">
                 {blog.image_url && (
@@ -141,27 +141,27 @@ export default async function BlogDetailPage(props: {
                   />
                 )}
 
-                <div className="p-6 md:p-8">
+                <div className="pt-6">
                   <h1 className="text-3xl font-bold tracking-tighter mb-4">
                     {blog.title}
                   </h1>
                   <p className="text-lg text-gray-600 mb-4">{blog.subtitle}</p>
                   <div className="flex items-center gap-2 justify-between">
                     {blog.category && (
-                      <p className="text-sm text-gray-500 mb-8">
+                      <div className="text-sm text-gray-500 mb-8 flex">
                         {blog.category.map((category) => (
                           <span
                             key={category}
-                            className="mr-2  bg-gray-100 rounded-lg p-2"
+                            className="mr-2  bg-[#496857] text-white rounded-lg p-2"
                           >
                             {category}
                           </span>
                         ))}
-                      </p>
+                      </div>
                     )}
-                    <p className="text-sm text-gray-500 mb-8">
+                    <div className="text-sm text-gray-500 mb-8">
                       {formattedDate}
-                    </p>
+                    </div>
                   </div>
 
                   {/* Notion 콘텐츠 렌더링 */}
@@ -174,7 +174,7 @@ export default async function BlogDetailPage(props: {
               </article>
             </div>
 
-            <div>
+            <div className="lg:col-span-2">
               {/* Related posts sidebar */}
               <div className="sticky top-32">
                 <h2 className="text-xl font-bold mb-4">관련 사례</h2>
