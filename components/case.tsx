@@ -17,6 +17,8 @@ import dayjs from "@/lib/dayjs";
 import Image from "next/image";
 import { BlogListItem } from "@/types/blog";
 import { getBlogList } from "@/lib/notion";
+import { formatDifference } from "@/lib/calcDifference";
+
 
 // Blog grid layout background colors
 const bgColors = [
@@ -186,7 +188,10 @@ export default function Case() {
                             variants={imageVariants}
                           >
                             <Image
-                              src={caseStudy.image_url}
+                              src={
+                                caseStudy.image_url ||
+                                "/placeholder.svg"
+                              }
                               alt={caseStudy.title}
                               fill
                               className="object-cover"
@@ -202,16 +207,19 @@ export default function Case() {
                       >
                         <motion.div variants={titleVariants}>
                           <CardTitle className="text-xl transition-colors">
-                            {caseStudy.title}
+                            {caseStudy.title || "제목 없음"}
                           </CardTitle>
                         </motion.div>
                         <CardDescription className="text-gray-700">
                           {dayjs(caseStudy.created_at).format("YYYY년 MM월 DD일")}
+                          <span className="text-gray-400 ml-2">
+                            {formatDifference(caseStudy.created_at || "")}
+                          </span>
                         </CardDescription>
                       </CardHeader>
 
                       <CardContent>
-                        <p className="text-gray-600">{caseStudy.subtitle}</p>
+                        <p className="text-gray-600">{caseStudy.subtitle || "부제목 없음"}</p>
                       </CardContent>
 
                       <CardFooter>

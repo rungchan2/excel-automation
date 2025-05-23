@@ -10,9 +10,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getBlogList } from "@/lib/notion";
+import { formatDifference } from "@/lib/calcDifference";
 
 // This enables dynamic rendering for this route
 export const dynamic = "force-dynamic";
@@ -52,35 +52,32 @@ async function BlogList({ page = 1 }: { page?: number }) {
                   src={
                     blog.cover?.type === "file"
                       ? blog.cover.file.url
-                      : blog.cover?.external?.url ||
-                        "/placeholder.svg?height=200&width=400"
+                      : blog.cover?.external?.url || "/placeholder.svg"
                   }
-                  alt={blog.properties.title.title[0].plain_text}
+                  alt={blog.properties.title.title[0].plain_text || ""}
                   fill
                   className="object-cover"
                 />
               </div>
               <CardHeader className="flex-1">
                 <CardTitle className="line-clamp-2">
-                  {blog.properties.title.title[0].plain_text}
+                  {blog.properties.title.title[0].plain_text || ""}
                 </CardTitle>
                 <CardDescription className="line-clamp-2">
                   {blog.properties["sub-title"].rich_text[0].plain_text || ""}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-500">
-                  {dayjs(blog.created_time).format("YYYY년 MM월 DD일")}
-                </p>
+                <div className="flex items-center gap-2">
+                  <p className="text-sm text-gray-500">
+                    {dayjs(blog.created_time).format("YYYY년 MM월 DD일")}
+                  </p>
+                  <p className="text-sm text-gray-500">{"-"}</p>
+                  <p className="text-sm text-gray-500">
+                    {formatDifference(blog.created_time)}
+                  </p>
+                </div>
               </CardContent>
-              <CardFooter>
-                <Button
-                  variant="ghost"
-                  className="text-[#217346] hover:bg-[#E6F4EA] hover:text-[#217346]"
-                >
-                  더 보기
-                </Button>
-              </CardFooter>
             </Card>
           </Link>
         ))}
