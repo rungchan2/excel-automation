@@ -21,6 +21,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "[클래스플로우] ClassFlow",
   description: "학원 운영에 필요한 반복적인 업무들로 부터 해방! 효율적인 자동화로 시간을 되찾으세요",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://classflow.monstercoop.co.kr"),
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_BASE_URL || "https://classflow.monstercoop.co.kr",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -44,7 +48,7 @@ export const metadata: Metadata = {
     siteName: "클래스플로우",
     images: [
       {
-        url: "/checkin.png",
+        url: "/og-image.png",
         alt: "클래스플로우 서비스 이미지"
       },
     ],

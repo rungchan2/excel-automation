@@ -11,7 +11,7 @@ export default function manifest(): MetadataRoute.Manifest {
     orientation: "portrait",
     theme_color: "#217346",
     background_color: "#ffffff",
-    categories: ["education", "productivity", "business"],
+    categories: ["education", "productivity", "business", "업무 자동화", "생산성", "학원 운영"],
     icons: [
       {
         src: "/favicon.ico",
@@ -48,7 +48,7 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     screenshots: [
       {
-        src: "/checkin.png",
+        src: "/og-image.png",
         type: "image/png",
         sizes: "1200x630",
         form_factor: "wide"

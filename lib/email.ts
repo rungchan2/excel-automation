@@ -1,4 +1,4 @@
-import { supabase } from "./supabase"
+import { createClient } from "@/lib/supabase/client"
 
 export const sendInquiryEmail = async (inquiryData: {
   name: string
@@ -8,6 +8,7 @@ export const sendInquiryEmail = async (inquiryData: {
   tool_issues?: string
 }) => {
   try {
+    const supabase = createClient()
     const emailBody = `
       <h2>새로운 상담 신청이 접수되었습니다.</h2>
       <p><strong>신청자명:</strong> ${inquiryData.name}</p>

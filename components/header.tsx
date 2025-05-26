@@ -55,6 +55,8 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
+  const baseUrl = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_BASE_URL || "/" : "/"
+
   return (
     <div className="sticky top-0 z-50 flex justify-center w-full pt-4 will-change-transform">
       {/* Header */}
@@ -70,7 +72,7 @@ export default function Header() {
         className="border-b backdrop-blur-sm transition-all duration-300 ease-in-out"
       >
         <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href={baseUrl} className="flex items-center gap-2">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}

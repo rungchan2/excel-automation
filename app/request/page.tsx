@@ -26,7 +26,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { toast, Toaster } from "sonner";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { sendInquiryEmail } from "@/lib/email";
 import type { InquiryFormData } from "@/types/inquiry";
 
@@ -78,6 +78,24 @@ export default function RequestPage() {
   const [errors, setErrors] = useState<Record<string, string | null>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionCount, setSubmissionCount] = useState<number | null>(null);
+
+  const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : process.env.NEXT_PUBLIC_BASE_URL;
+
+  useEffect(() => {
+    const fetchInquiryCount = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/api/get-inquiry-number?api_key=${process.env.PUBLIC_API_KEY}`);
+        const data = await response.json();
+        setSubmissionCount(data.count || 0);
+        return data.count || 0;
+      } catch (error) {
+        console.error('Error fetching inquiry count:', error);
+        return 0;
+      }
+    };
+    fetchInquiryCount();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -168,6 +186,7 @@ export default function RequestPage() {
       };
 
       // 1. Save to database
+      const supabase = createClient()
       const { error: dbError } = await supabase
         .from("inquiry")
         .insert(submissionData);
@@ -441,6 +460,15 @@ export default function RequestPage() {
                       "상담 요청하기"
                     )}
                   </Button>
+                  <div className="flex justify-center">
+                  <p className="text-sm text-gray-400">
+                    지금까지{" "}
+                    <span className="font-bold text-gray-600">
+                      {submissionCount}
+                    </span>
+                      건의 상담이 있었습니다 🥳
+                    </p>
+                  </div>
                 </form>
               </CardContent>
             </Card>
