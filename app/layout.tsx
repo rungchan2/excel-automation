@@ -19,11 +19,29 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "[클래스플로우] ClassFlow",
-  description: "학원 운영에 필요한 반복적인 업무들로 부터 해방! 효율적인 자동화로 시간을 되찾으세요",
+  title: "[클래스플로우] ClassFlow - 엑셀 기반 학원 자동화 서비스",
+  description: "학원 운영에 필요한 반복적인 업무들로 부터 해방! 효율적인 자동화로 시간을 되찾으세요. 출결관리, 문자발송, 수납관리를 엑셀에서 바로 자동화하세요.",
+  keywords: "학원 자동화, 엑셀 자동화, 출결관리, 문자발송, 수납관리, 학원 관리 시스템, Make.com, 노코드 자동화",
+  authors: [{ name: "ClassFlow Team" }],
+  creator: "ClassFlow",
+  publisher: "ClassFlow",
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://classflow.monstercoop.co.kr"),
   alternates: {
     canonical: process.env.NEXT_PUBLIC_BASE_URL || "https://classflow.monstercoop.co.kr",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
   },
   icons: {
     icon: [
@@ -49,9 +67,17 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/og-image.png",
+        width: 1200,
+        height: 630,
         alt: "클래스플로우 서비스 이미지"
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "[클래스플로우] ClassFlow - 엑셀 기반 학원 자동화 서비스",
+    description: "학원 운영에 필요한 반복적인 업무들로 부터 해방! 효율적인 자동화로 시간을 되찾으세요",
+    images: ["/og-image.png"],
   },
 };
 

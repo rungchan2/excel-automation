@@ -74,6 +74,7 @@ export function InquiryDataTable({
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [selectedInquiry, setSelectedInquiry] = useState<InquiryRecord | null>(null)
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null)
 
   const pageSize = 10
   const totalPages = Math.ceil(totalCount / pageSize)
@@ -122,6 +123,49 @@ export function InquiryDataTable({
     } catch (error) {
       toast.error("삭제 중 오류가 발생했습니다.")
     }
+  }
+
+  const handleDetailView = (inquiry: InquiryRecord) => {
+    setSelectedInquiry(inquiry)
+    setOpenDropdownId(null) // 드롭다운 닫기
+    // 약간의 지연을 두고 모달 열기 (드롭다운이 완전히 닫힌 후)
+    setTimeout(() => {
+      setDetailModalOpen(true)
+    }, 100)
+  }
+
+  const handleEdit = (inquiry: InquiryRecord) => {
+    setSelectedInquiry(inquiry)
+    setOpenDropdownId(null) // 드롭다운 닫기
+    setTimeout(() => {
+      setEditModalOpen(true)
+    }, 100)
+  }
+
+  const handleDeleteClick = (inquiry: InquiryRecord) => {
+    setSelectedInquiry(inquiry)
+    setOpenDropdownId(null) // 드롭다운 닫기
+    setTimeout(() => {
+      setDeleteDialogOpen(true)
+    }, 100)
+  }
+
+  const handleModalClose = (modalType: 'detail' | 'edit' | 'delete') => {
+    switch (modalType) {
+      case 'detail':
+        setDetailModalOpen(false)
+        break
+      case 'edit':
+        setEditModalOpen(false)
+        break
+      case 'delete':
+        setDeleteDialogOpen(false)
+        break
+    }
+    // 모달이 닫힌 후 선택된 문의 초기화
+    setTimeout(() => {
+      setSelectedInquiry(null)
+    }, 200)
   }
 
   const truncateText = (text: string, maxLength: number) => {
@@ -236,7 +280,10 @@ export function InquiryDataTable({
                           {dayjs(inquiry.created_at).format("YYYY.MM.DD HH:mm")}
                         </TableCell>
                         <TableCell>
-                          <DropdownMenu>
+                          <DropdownMenu 
+                            open={openDropdownId === inquiry.id} 
+                            onOpenChange={(open) => setOpenDropdownId(open ? inquiry.id : null)}
+                          >
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" className="h-8 w-8 p-0">
                                 <MoreHorizontal className="h-4 w-4" />
@@ -244,39 +291,47 @@ export function InquiryDataTable({
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem
-                                onClick={() => {
-                                  setSelectedInquiry(inquiry)
-                                  setDetailModalOpen(true)
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  handleDetailView(inquiry)
                                 }}
                               >
                                 <Eye className="mr-2 h-4 w-4" />
                                 상세보기
                               </DropdownMenuItem>
                               <DropdownMenuItem
-                                onClick={() => {
-                                  setSelectedInquiry(inquiry)
-                                  setEditModalOpen(true)
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  handleEdit(inquiry)
                                 }}
                               >
                                 <Edit className="mr-2 h-4 w-4" />
                                 수정
                               </DropdownMenuItem>
                               <DropdownMenuItem
-                                onClick={() => handleStatusUpdate(inquiry.id, "processing")}
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  setOpenDropdownId(null)
+                                  handleStatusUpdate(inquiry.id, "processing")
+                                }}
                                 disabled={inquiry.status === "processing"}
                               >
                                 처리중으로 변경
                               </DropdownMenuItem>
                               <DropdownMenuItem
-                                onClick={() => handleStatusUpdate(inquiry.id, "completed")}
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  setOpenDropdownId(null)
+                                  handleStatusUpdate(inquiry.id, "completed")
+                                }}
                                 disabled={inquiry.status === "completed"}
                               >
                                 완료로 변경
                               </DropdownMenuItem>
                               <DropdownMenuItem
-                                onClick={() => {
-                                  setSelectedInquiry(inquiry)
-                                  setDeleteDialogOpen(true)
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  handleDeleteClick(inquiry)
                                 }}
                                 className="text-red-600"
                               >
@@ -330,19 +385,23 @@ export function InquiryDataTable({
       {/* Modals */}
       {selectedInquiry && (
         <>
-          <InquiryDetailModal inquiry={selectedInquiry} open={detailModalOpen} onOpenChange={setDetailModalOpen} />
+          <InquiryDetailModal 
+            inquiry={selectedInquiry} 
+            open={detailModalOpen} 
+            onOpenChange={() => handleModalClose('detail')} 
+          />
           <InquiryEditModal
             inquiry={selectedInquiry}
             open={editModalOpen}
-            onOpenChange={setEditModalOpen}
+            onOpenChange={() => handleModalClose('edit')}
             onSuccess={() => {
               onDataChange()
-              setEditModalOpen(false)
+              handleModalClose('edit')
             }}
           />
           <DeleteConfirmDialog
             open={deleteDialogOpen}
-            onOpenChange={setDeleteDialogOpen}
+            onOpenChange={() => handleModalClose('delete')}
             onConfirm={() => handleDelete(selectedInquiry.id)}
             title="문의 삭제"
             description={`${selectedInquiry.name}님의 문의를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.`}
